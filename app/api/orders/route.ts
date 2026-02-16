@@ -1,16 +1,22 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { auth0 } from '@/lib/auth0';
 
-// CORS headers
-const corsHeaders = {
-  'Access-Control-Allow-Origin': 'http://localhost:5173',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+// CORS headers - Allow both localhost and production
+const getAllowedOrigin = (request: NextRequest) => {
+  const origin = request.headers.get('origin');
+  const allowedOrigins = ['http://localhost:5173', 'https://pizza42-frontend.vercel.app'];
+  return allowedOrigins.includes(origin || '') ? origin : 'http://localhost:5173';
 };
 
+const getCorsHeaders = (request: NextRequest) => ({
+  'Access-Control-Allow-Origin': getAllowedOrigin(request) || '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+});
+
 // Handle OPTIONS request for CORS preflight
-export async function OPTIONS() {
-  return NextResponse.json({}, { headers: corsHeaders });
+export async function OPTIONS(req: NextRequest) {
+  return NextResponse.json({}, { headers: getCorsHeaders(req) });
 }
 
 export async function POST(req: NextRequest) {
@@ -34,7 +40,7 @@ export async function POST(req: NextRequest) {
       if (!response.ok) {
         return NextResponse.json({ error: 'Invalid token' }, {
           status: 401,
-          headers: corsHeaders
+          headers: getCorsHeaders(req)
         });
       }
 
@@ -47,7 +53,7 @@ export async function POST(req: NextRequest) {
       if (!user) {
         return NextResponse.json({ error: 'Not authenticated' }, {
           status: 401,
-          headers: corsHeaders
+          headers: getCorsHeaders(req)
         });
       }
     }
@@ -59,7 +65,7 @@ export async function POST(req: NextRequest) {
         emailVerified: false
       }, {
         status: 403,
-        headers: corsHeaders
+        headers: getCorsHeaders(req)
       });
     }
 
@@ -147,7 +153,7 @@ export async function POST(req: NextRequest) {
       message: `Your ${pizzaName} pizza has been ordered!`,
     }, {
       status: 200,
-      headers: corsHeaders
+      headers: getCorsHeaders(req)
     });
 
   } catch (error: any) {
@@ -156,7 +162,7 @@ export async function POST(req: NextRequest) {
       error: error.message || 'Internal server error'
     }, {
       status: 500,
-      headers: corsHeaders
+      headers: getCorsHeaders(req)
     });
   }
 }
