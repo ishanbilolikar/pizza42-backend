@@ -22,30 +22,29 @@ export default function Home() {
         textAlign: 'center'
       }}>
         <p style={{ marginBottom: '1rem', color: '#374151' }}>
-          This is the API backend. The frontend is running separately.
+          This is the Pizza42 CIAM Demo API backend powered by Next.js.
         </p>
-        <p style={{ marginBottom: '1.5rem', color: '#6b7280', fontSize: '0.9rem' }}>
-          API Endpoint: <code style={{
+        <div style={{ marginBottom: '1.5rem' }}>
+          <p style={{ color: '#6b7280', fontSize: '0.9rem', marginBottom: '0.5rem' }}>
+            <strong>Available Endpoints:</strong>
+          </p>
+          <code style={{
+            display: 'block',
             backgroundColor: '#f3f4f6',
-            padding: '0.25rem 0.5rem',
+            padding: '1rem',
             borderRadius: '0.25rem',
-            fontFamily: 'monospace'
-          }}>/api/orders</code>
+            fontFamily: 'monospace',
+            fontSize: '0.85rem',
+            textAlign: 'left'
+          }}>
+            POST /api/orders<br />
+            GET /api/user-orders<br />
+            GET /api/tokens
+          </code>
+        </div>
+        <p style={{ fontSize: '0.9rem', color: '#9ca3af' }}>
+          Protected by Auth0 • Built with Next.js
         </p>
-        <a
-          href="http://localhost:5173"
-          style={{
-            display: 'inline-block',
-            backgroundColor: '#dc2626',
-            color: 'white',
-            padding: '0.75rem 1.5rem',
-            borderRadius: '0.5rem',
-            textDecoration: 'none',
-            fontWeight: '600'
-          }}
-        >
-          Open React Frontend →
-        </a>
       </div>
     </div>
   );
