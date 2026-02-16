@@ -38,8 +38,7 @@ export default function Home() {
             textAlign: 'left'
           }}>
             POST /api/orders<br />
-            GET /api/user-orders<br />
-            GET /api/tokens
+            GET /api/user-orders
           </code>
         </div>
         <p style={{ fontSize: '0.9rem', color: '#9ca3af' }}>
